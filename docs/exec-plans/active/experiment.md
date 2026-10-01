@@ -19,7 +19,7 @@ then saved-evidence replay and editorial handoff. No CI/CD and no production sup
 - [x] Add local checks and useful tests, short AGENTS map, architecture, references.
 - [x] Estimate a concrete one-pass budget; paid calls still unauthorized.
 - [x] Confirm local checks: 19 tests, data/freeze/docs/import boundaries; dev/final offline reports.
-- [ ] Push and verify GitHub publication evidence.
+- [x] Push and verify GitHub publication: PUBLIC, main, remote SHA matches local.
 - [ ] Owner reviews rules/labels, resolves disputed cases and approves budget.
 - [ ] Verify actual account/API contract on dev within approved budget.
 - [ ] Run final series (up to three only if separately affordable/authorized).
@@ -46,5 +46,7 @@ Verified implementation commit: d8079310a4bb5697252f060e7245a8a520292c82.
 Clean-commit offline evidence: `results/published/offline-control-v1/`; fixed keyword
 control scored 54/100, unsafe automation 18, API cost $0. Never vendor measurements.
 GitHub repository created public: https://github.com/feD0s/jev-router-bench.
-Push verification follows; paid model evaluation remains unapproved.
+GitHub verification 2026-10-01: PUBLIC, default branch main; published source/evidence
+commit 9c322977f9c67b33d78f5b0275f2b09b5201908d matched local HEAD. Working tree clean.
+Paid model evaluation remains unapproved.
 Paid results and UI depend on human review/budget, not on elapsed time or assumed permission.

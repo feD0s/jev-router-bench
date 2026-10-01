@@ -10,7 +10,7 @@ Updated 2026-10-01.
 | Cost/limits | local tests | real usage/cache-write allocation/invoice unverified |
 | Metrics/report | deterministic tests + dry-run | no vendor benchmark data yet |
 | Documentation/architecture | locally enforced | make check |
-| GitHub | public requested | repository URL in README; verify after push |
+| GitHub | public verified | PUBLIC, main, remote commit matched local; clean worktree |
 | UI/replay | awaiting real evidence | implement after paid results, per scope |
 | Editorial results | pending real eval | personal owner conclusions absent |
 
