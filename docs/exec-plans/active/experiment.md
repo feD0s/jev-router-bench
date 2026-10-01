@@ -40,5 +40,11 @@ then saved-evidence replay and editorial handoff. No CI/CD and no production sup
 
 ## Validation and completion evidence
 
-Record final `make check`, dry-run and GitHub commit evidence here after verification.
+`make check`: 19 tests passed; dataset/freeze/docs/import boundaries passed.
+Dev 20 and final 100 offline runs completed without network or API keys.
+Verified implementation commit: d8079310a4bb5697252f060e7245a8a520292c82.
+Clean-commit offline evidence: `results/published/offline-control-v1/`; fixed keyword
+control scored 54/100, unsafe automation 18, API cost $0. Never vendor measurements.
+GitHub repository created public: https://github.com/feD0s/jev-router-bench.
+Push verification follows; paid model evaluation remains unapproved.
 Paid results and UI depend on human review/budget, not on elapsed time or assumed permission.

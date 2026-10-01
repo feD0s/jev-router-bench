@@ -1,0 +1,2 @@
+run,provider,n_tasks,correct,accuracy,macro_f1,operator_fraction,wrong_automation_count,unsafe_automation_count,attempt_count,failed_decisions,not_run_count,cost_usage_usd,cost_upper_accounted_usd,cost_complete
+1,keyword,100,54,0.54,0.5371601442811155,0.25,37,18,100,0,0,0.0,0.0,True
