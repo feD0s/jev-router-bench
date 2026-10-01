@@ -95,7 +95,8 @@ def generate_report(directory):
     for row in summary_rows:
         lines.append(f"| {row['run']} | {row['provider']} | {row['correct']}/{row['n_tasks']} | {row['accuracy']:.3f} | {row['macro_f1']:.3f} | {row['operator_fraction']:.3f} | {row['unsafe_automation_count']} | {row['cost_usage_usd']:.6f} | {row['cost_upper_accounted_usd']:.6f} |")
     lines += ["", "## Latency and uncertainty", "",
-              "Wall-clock includes full response, parsing/validation and local HTTP worker startup/cleanup. End-to-end decision time also includes retry backoff. p95 uses nearest rank; the tail is unstable on 100 observations.",
+              ("Offline timing measures only the local keyword function. No HTTP, model inference, or comparison with Jev/GPT latency." if "keyword" in providers else
+               "Wall-clock includes full response, parsing/validation and local HTTP worker startup/cleanup. End-to-end decision time also includes retry backoff. p95 uses nearest rank; the tail is unstable on 100 observations."),
               "95% Wilson intervals describe binomial sampling uncertainty only; synthetic selection/AI label bias is not captured. Repeated runs reuse the same tasks, so do not pool them as a larger independent sample.", ""]
     for row in summary_rows:
         m = aggregates[row["run"]][row["provider"]]

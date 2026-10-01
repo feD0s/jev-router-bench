@@ -144,7 +144,7 @@ def live_run(split, out, repeats, approved_spend, max_requests=None, transport=p
     keys = load_env(ROOT / ".env")
     m = cfg["measurement"]
     cases = load_cases(split)
-    planned_attempt_cap = len(cases) * repeats * m["max_attempts"]
+    planned_attempt_cap = len(cases) * len(cfg["providers"]) * repeats * m["max_attempts"]
     request_limit = min(planned_attempt_cap, m["max_requests"])
     if max_requests is not None:
         request_limit = min(max_requests, request_limit)
