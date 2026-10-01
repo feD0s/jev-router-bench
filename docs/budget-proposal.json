@@ -1,0 +1,35 @@
+{
+  "status": "proposal_only_no_paid_requests",
+  "split": "final",
+  "runs": 1,
+  "prices_verified_on": "2026-10-01",
+  "sources": {
+    "jev": "https://docs.typesafe.ai/models",
+    "gpt": "https://developers.openai.com/api/docs/models/gpt-6-luna"
+  },
+  "providers": {
+    "jev": {
+      "request_count_no_retries": 100,
+      "serialized_utf8_bytes": 662887,
+      "heuristic_input_tokens": 220962.33333333334,
+      "heuristic_expected_usd": 0.009280418000000002,
+      "conservative_one_attempt_per_task_usd": 0.0672,
+      "all_tasks_max_attempts_usd": 0.1344,
+      "largest_envelope_bytes_plus_overhead": 10813
+    },
+    "gpt": {
+      "request_count_no_retries": 100,
+      "serialized_utf8_bytes": 708317,
+      "heuristic_input_tokens": 236105.66666666666,
+      "heuristic_expected_usd": 0.024210566666666666,
+      "conservative_one_attempt_per_task_usd": 0.2016,
+      "all_tasks_max_attempts_usd": 0.4032,
+      "largest_envelope_bytes_plus_overhead": 11271
+    }
+  },
+  "heuristic_total_usd": 0.03349098466666667,
+  "conservative_no_retries_usd": 0.2688,
+  "conservative_all_retries_usd": 0.5376,
+  "proposed_limit_usd": 1.0,
+  "note": "UTF-8 bytes / 3 is a planning heuristic, not measured token usage. No cache savings assumed; GPT output estimate 12 tokens, cap 32. Conservative reservations use 16000 input tokens and cache-write premium. Repeats multiply the bound; a $1 limit can stop a multi-repeat series. Dev is separately estimated/authorized. This proposal is not spending permission."
+}

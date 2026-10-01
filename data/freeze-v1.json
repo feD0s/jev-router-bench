@@ -1,0 +1,14 @@
+{
+  "version": "synthetic-ru-v1",
+  "created_on": "2026-10-01",
+  "author": "AI coding agent",
+  "human_review": "pending",
+  "sha256": {
+    "configs/experiment-v1.json": "44795fb153a341d9b5f1c740412d75eab50864d5f41be4713a9345c48492cb11",
+    "prompts/router-v1.txt": "7d9cdfac7b07aa3bf2e57b5c8e71c477952264eaffa675b39111bc3b969a947b",
+    "data/shop-v1.json": "f139f23cb685e29fcc853c4d6e2b92b8fedd61d5f0ac03a328dc312712864acf",
+    "data/dev-v1.jsonl": "cb756b6b11901f6af19886d3e7c2dddf9cef52f35a0de398fe191313b00ff6f3",
+    "data/final-v1.jsonl": "3125fc601a20b43e3a849e4d1079945d4a5b00a2a7cf231b19baae092603b41a",
+    "docs/business-rules.md": "e4d914167fb5a0b300eda4486bed85f023aedd89ded782986810b418fd66d82f"
+  }
+}

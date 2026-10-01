@@ -1,0 +1,9 @@
+[project]
+name = "jev-router-bench"
+version = "0.1.0"
+description = "A reproducible Russian intent-routing experiment for AI Techie"
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.ruff]
+line-length = 100

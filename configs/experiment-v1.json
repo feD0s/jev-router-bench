@@ -1,0 +1,49 @@
+{
+  "version": "router-v1",
+  "dataset_version": "synthetic-ru-v1",
+  "prompt_path": "prompts/router-v1.txt",
+  "shop_path": "data/shop-v1.json",
+  "providers": {
+    "jev": {
+      "model": "jev-1.13.0",
+      "endpoint": "https://api.typesafe.ai/v1/systemone",
+      "input_per_million_usd": 0.042,
+      "output_per_million_usd": 0.0,
+      "cached_input_per_million_usd": 0.042,
+      "cache_write_per_million_usd": 0.042
+    },
+    "gpt": {
+      "model": "gpt-6-luna",
+      "endpoint": "https://api.openai.com/v1/responses",
+      "reasoning_effort": "none",
+      "max_output_tokens": 32,
+      "input_per_million_usd": 0.1,
+      "output_per_million_usd": 0.5,
+      "cached_input_per_million_usd": 0.01,
+      "cache_write_per_million_usd": 0.125
+    }
+  },
+  "criteria": {
+    "status": "Чтение статуса ровно одного известного заказа при достаточном контексте и отсутствии более приоритетных активных намерений.",
+    "operator": "Человек, активное изменение денег/заказа, решение претензии, неизвестный заказ, недостаток данных, неоднозначность или вопрос вне справки.",
+    "answer": "Общий вопрос по справке магазина; без реального изменения, запроса человека или проверки конкретного статуса."
+  },
+  "measurement": {
+    "mode": "paired-live",
+    "concurrency": 1,
+    "seed": 614,
+    "request_timeout_s": 20,
+    "series_timeout_s": 7200,
+    "spacing_s": 0.1,
+    "max_attempts": 2,
+    "retry_backoff_s": 1,
+    "max_requests": 1200,
+    "input_token_ceiling": 16000,
+    "max_runs": 3
+  },
+  "pricing_verified_on": "2026-10-01",
+  "pricing_sources": {
+    "jev": "https://docs.typesafe.ai/models",
+    "gpt": "https://developers.openai.com/api/docs/models/gpt-6-luna"
+  }
+}
