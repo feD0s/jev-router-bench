@@ -8,10 +8,12 @@ Updated 2026-10-01.
 | Dataset structure | locally checked | 20/100, 60/30/10, labels, uniqueness, context |
 | API adapters | offline contract tests | live provider contract still unverified |
 | Cost/limits | local tests | real usage/cache-write allocation/invoice unverified |
+| Budget | $10 approved total | simple saved-usage accounting; no split quotas/ledger |
+| Model mode | owner chose medium, active config v2 | provider-default generation; account access unverified |
 | Metrics/report | deterministic tests + dry-run | no vendor benchmark data yet |
 | Documentation/architecture | locally enforced | make check |
 | GitHub | public verified | PUBLIC, main, remote commit matched local; clean worktree |
-| UI/replay | awaiting real evidence | implement after paid results, per scope |
+| UI/replay | awaiting real evidence | implement after paid results, per scope; executor API not budgeted |
 | Editorial results | pending real eval | personal owner conclusions absent |
 
 Known debt: Python HTTP worker startup adds client overhead; explicitly included

@@ -9,9 +9,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 ROUTES = ("status", "operator", "answer")
-CONFIG = "configs/experiment-v1.json"
+CONFIG = "configs/experiment-v2.json"
+FREEZE = "data/freeze-v2.json"
+APPROVAL = "configs/budget-approval-v1.json"
 FROZEN = (CONFIG, "prompts/router-v1.txt", "data/shop-v1.json",
-          "data/dev-v1.jsonl", "data/final-v1.jsonl", "docs/business-rules.md")
+          "data/dev-v1.jsonl", "data/final-v1.jsonl", "docs/business-rules.md", APPROVAL)
 
 
 def read_json(path):
@@ -31,7 +33,7 @@ def hashes():
 
 
 def check_freeze():
-    frozen = read_json(ROOT / "data/freeze-v1.json")
+    frozen = read_json(ROOT / FREEZE)
     if frozen["sha256"] != hashes():
         raise ValueError("Frozen inputs changed. Version them and repeat owner review.")
     return frozen
@@ -106,10 +108,10 @@ def validate_config(cfg):
     if cfg["providers"]["jev"]["model"] != "jev-1.13.0":
         raise ValueError("Versioned Jev model required; no silent replacement")
     gpt = cfg["providers"]["gpt"]
-    if gpt["model"] != "gpt-6-luna" or gpt["reasoning_effort"] != "none":
-        raise ValueError("Primary mode is explicitly gpt-6-luna effort=none")
-    if type(gpt["max_output_tokens"]) is not int or not 16 <= gpt["max_output_tokens"] <= 128:
-        raise ValueError("Output cap must be 16–128")
+    if gpt["model"] != "gpt-6-luna" or gpt["reasoning_effort"] != "medium":
+        raise ValueError("Owner-selected primary mode is explicitly gpt-6-luna effort=medium")
+    if "max_output_tokens" in gpt:
+        raise ValueError("Owner requested provider-default generation, no custom output cap")
     endpoints = {"jev": "https://api.typesafe.ai/v1/systemone",
                  "gpt": "https://api.openai.com/v1/responses"}
     for provider, settings in cfg["providers"].items():
@@ -120,16 +122,16 @@ def validate_config(cfg):
             if isinstance(rate, bool) or not isinstance(rate, (float, int)) or not math.isfinite(rate) or rate < 0:
                 raise ValueError("Invalid price")
     m = cfg["measurement"]
-    for key in ("max_attempts", "max_requests", "input_token_ceiling", "max_runs"):
+    for key in ("max_attempts", "max_runs"):
         if type(m[key]) is not int or m[key] <= 0:
             raise ValueError(f"Invalid {key}")
     if m["concurrency"] != 1 or m["mode"] != "paired-live" or m["max_runs"] > 3 or m["max_attempts"] > 2:
         raise ValueError("Only serial paired runs, up to 3 repeats and 2 attempts")
-    for key in ("request_timeout_s", "series_timeout_s", "spacing_s", "retry_backoff_s"):
+    for key in ("request_timeout_s", "spacing_s", "retry_backoff_s"):
         value = m[key]
         if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or value < 0:
             raise ValueError(f"Invalid {key}")
-    if not 0 < m["request_timeout_s"] <= 60 or not 0 < m["series_timeout_s"] <= 21600:
+    if not 0 < m["request_timeout_s"] <= 60:
         raise ValueError("Invalid timeout")
     if set(cfg["criteria"]) != set(ROUTES):
         raise ValueError("Criteria mismatch")

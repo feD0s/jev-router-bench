@@ -29,7 +29,8 @@ class AdapterTests(unittest.TestCase):
         gpt = request_body("gpt", case, self.cfg, self.prompt, self.shop)
         self.assertEqual(jev["state"], json.loads(gpt["input"][1]["content"]))
         self.assertEqual(jev["questions"]["route"]["instructions"], self.prompt)
-        self.assertEqual(gpt["reasoning"], {"effort": "none"})
+        self.assertEqual(gpt["reasoning"], {"effort": "medium"})
+        self.assertNotIn("max_output_tokens", gpt)
         self.assertFalse(gpt["store"])
         for key in ("id", "expected_route", "rationale", "tags"):
             self.assertNotIn(key, jev["state"])

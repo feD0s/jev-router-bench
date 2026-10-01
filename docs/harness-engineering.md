@@ -11,7 +11,7 @@ This is a scoped interpretation, not an official compliance certification.
 | Parse shapes at boundaries | strict Choice/Structured Output parsers, input validator | malformed/refusal/usage tests |
 | Enforce architecture | no network outside transport, allowed Python imports | AST structural check |
 | Make behavior legible | immutable raw attempts, explicit errors, deterministic reports | offline end-to-end tests |
-| Resource-aware autonomy | timeout, requests, conservative spend reservations | limit/retry/error-accounting tests |
+| Resource-aware autonomy | ordinary HTTP timeout, saved usage, total budget | limit/retry/error-accounting tests |
 | Small maintenance scope | zero dependencies, no production infrastructure | stdlib-only imports |
 
 No CI/CD, GitHub Actions, scheduled maintenance agents or observability service.

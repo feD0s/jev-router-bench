@@ -1,0 +1,12 @@
+{
+  "approved": true,
+  "approved_by": "repository owner (chat)",
+  "approved_on": "2026-10-01",
+  "total_limit_usd": 10.0,
+  "experiment_config": "configs/experiment-v2.json",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "medium",
+  "owner_message": "Бюджет пусть будет 10$. давай не перестраховываться иначе мы уйдем от цели",
+  "policy": "No split quotas, no persistent locks/ledger, no custom max_output_tokens. Use provider generation defaults, ordinary HTTP timeout and total budget.",
+  "rules_and_labels_review": "pending; budget/model approval is not label approval"
+}

@@ -2,7 +2,7 @@
 
 Official pages read immediately before offline adapter integration. No paid call,
 account-access verification or live contract validation has occurred; local `.env`
-does not exist. Documentation examples are not benchmark results.
+was prepared with empty key fields. Documentation examples are not benchmark results.
 
 | Item | Verified in published docs | Source |
 |---|---|---|
@@ -14,7 +14,7 @@ does not exist. Documentation examples are not benchmark results.
 | Confidence | distribution-derived; no comparable GPT measure added | [Confidence](https://docs.typesafe.ai/confidence) |
 | Jev quick start | native request/response and usage input/output tokens | [Quick start](https://docs.typesafe.ai/introduction/quickstart) |
 | GPT fixed requested ID | gpt-6-luna, Responses supported; official page has no dated snapshot | [Model](https://developers.openai.com/api/docs/models/gpt-6-luna) |
-| GPT effort | none/low/medium(default)/high/xhigh/max; explicitly choose none | [Model](https://developers.openai.com/api/docs/models/gpt-6-luna) |
+| GPT effort | none/low/medium(default)/high/xhigh/max; explicitly choose medium by owner request | [Model](https://developers.openai.com/api/docs/models/gpt-6-luna) |
 | GPT Standard USD / Mtok | input .10, cached .01, write .125, output .50 | [Model](https://developers.openai.com/api/docs/models/gpt-6-luna) |
 | GPT Structured Output | strict text.format json_schema; handle refusal/incomplete | [Guide](https://developers.openai.com/api/docs/guides/structured-outputs) |
 | Evals | explicit success criteria, representative and adversarial tasks, held-out evaluation | [Best practices](https://developers.openai.com/api/docs/guides/evaluation-best-practices) |
@@ -23,6 +23,11 @@ does not exist. Documentation examples are not benchmark results.
 Rates have no Batch/Flex/Fast or regional multipliers here. GPT cache-write pricing
 is published, but allocation in normal Responses usage is not established by this
 review; calculations therefore retain uncertainty rather than silently ignoring it.
+
+Update 2026-10-01: owner chose medium. [Reasoning guide](https://developers.openai.com/api/docs/guides/reasoning)
+confirms max_output_tokens includes reasoning and visible/formatting tokens; incomplete
+can occur before a visible route. Owner requested provider-default generation: no custom max_output_tokens.
+The previously proposed 2048 cap was removed before any paid request.
 
 Before a real run: re-open model/rate pages, verify account access with supplied
 keys without logging them, record date/evidence and request configuration. Jev

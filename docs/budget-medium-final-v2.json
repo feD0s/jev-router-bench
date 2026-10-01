@@ -1,0 +1,57 @@
+{
+  "status": "planning_only_no_paid_requests",
+  "split": "final",
+  "runs": 1,
+  "model": "gpt-6-luna",
+  "reasoning_effort": "medium",
+  "custom_max_output_tokens": null,
+  "documented_model_max_output_tokens": 128000,
+  "prices_verified_on": "2026-10-01",
+  "sources": {
+    "jev": "https://docs.typesafe.ai/models",
+    "gpt": "https://developers.openai.com/api/docs/models/gpt-6-luna"
+  },
+  "providers": {
+    "jev": {
+      "request_count_no_retries": 100,
+      "serialized_utf8_bytes": 662887,
+      "heuristic_input_tokens": 220962.33333333334,
+      "heuristic_expected_usd": 0.009280418000000002,
+      "conservative_one_attempt_per_task_usd": 0.0672,
+      "all_tasks_max_attempts_usd": 0.1344,
+      "largest_envelope_bytes_plus_overhead": 10813
+    },
+    "gpt": {
+      "request_count_no_retries": 100,
+      "serialized_utf8_bytes": 706017,
+      "heuristic_input_tokens": 235339.0,
+      "heuristic_expected_usd": null,
+      "conservative_one_attempt_per_task_usd": 6.6000000000000005,
+      "all_tasks_max_attempts_usd": 13.200000000000001,
+      "largest_envelope_bytes_plus_overhead": 11248
+    }
+  },
+  "heuristic_total_usd": null,
+  "medium_output_scenarios": [
+    {
+      "assumed_gpt_total_output_tokens_per_request": 256,
+      "combined_heuristic_cost_usd": 0.045614318
+    },
+    {
+      "assumed_gpt_total_output_tokens_per_request": 1024,
+      "combined_heuristic_cost_usd": 0.08401431799999999
+    },
+    {
+      "assumed_gpt_total_output_tokens_per_request": 4096,
+      "combined_heuristic_cost_usd": 0.23761431800000002
+    },
+    {
+      "assumed_gpt_total_output_tokens_per_request": 16384,
+      "combined_heuristic_cost_usd": 0.852014318
+    }
+  ],
+  "conservative_no_retries_usd": 6.6672,
+  "conservative_all_retries_usd": 13.3344,
+  "approved_shared_limit_usd": 10.0,
+  "note": "Owner approved $10 total and requested simpler defaults. No custom output cap or split quotas. Medium usage is unknown: scenarios are illustrations, not a prediction. Reservations use the published model maximum only for accounting, not as a request setting; settled actual usage is normally lower. No paid requests yet. Old none-mode $0.04 estimate does not apply."
+}

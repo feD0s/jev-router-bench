@@ -1,75 +1,66 @@
 # Jev Router Bench — readiness report
 
-Date: 2026-10-01. Project: AI Techie. **No paid model evaluation yet.**
+Date: 2026-10-01. AI Techie. **No paid model evaluation yet.**
 
-Prepared an offline-first, reviewable runner, synthetic dataset and public-repo
-package. No Jev/GPT accuracy, latency or actual API cost has been measured.
-No claim about a better model and no invented author experience.
+Owner selected GPT-6 Luna **medium**, increased the budget to **$10 total** and
+requested simpler defaults. Full Russian explanation of all choices and caveats:
+[Все решения и ограничения](docs/decisions-and-limitations.ru.md).
 
-Verified implementation commit:
+## Active setup
+
+- Jev `jev-1.13.0`, native Choice; GPT `gpt-6-luna`, explicit effort medium.
+- Strict single route. No custom max_output_tokens: provider-default generation.
+- No dev/final quotas, locks/ledger, input cap or extra series deadline.
+- Ordinary 60-second HTTP timeout, one retry for selected temporary HTTP errors.
+- Simple shared $10 accounting from saved attempts; errors/retries included.
+- `configs/experiment-v2.json`, `data/freeze-v2.json`; v1 none kept as history.
+- Dataset unchanged: 20 dev, 100 final, AI labels, human review pending.
+- `.env` prepared empty with mode 0600, gitignored; owner will enter keys locally.
+
+## Offline verification
+
+`make check`: 20 tests and data/freeze/docs/import checks passed.
+`make dry-run`: medium request envelopes, without custom output cap, no API calls.
+Tests remain offline regardless of real owner review/key state.
+No actual API access, provider contract, model quality/latency or invoice measured.
+
+[Saved offline control](results/published/offline-control-v1/results-summary.md)
+references source commit
 [d807931](https://github.com/feD0s/jev-router-bench/commit/d8079310a4bb5697252f060e7245a8a520292c82).
+54/100, 18 unsafe automations, $0 API spend: only the crude keyword algorithm.
+Its v1 none metadata is historical, never a Jev/GPT benchmark result.
 
-## Frozen inputs
+## Budget
 
-- `jev-1.13.0`, native Choice; `gpt-6-luna`, strict single route, explicit effort none.
-- `synthetic-ru-v1`: 20 dev and 100 final (60 ordinary / 30 hard / 10 adversarial).
-- Final route balance: 33 status / 34 operator / 33 answer.
-- Rules, prompts, settings and both splits hashed in `data/freeze-v1.json`.
-- Human review pending; concrete boundaries in [owner-review](docs/owner-review.md).
+**$10 approved overall**, not $10 per provider or CLI invocation. Use results/live/
+for real runs so saved attempts feed the remaining-budget calculation. The main
+benchmark excludes downstream executor calls. No complex accounting service.
 
-## Offline evidence
+Medium reasoning volume is unknown. The former none-mode $0.04 prediction and
+proposed 2048-token cap no longer apply. Illustrative scenarios and published
+rates: [final](docs/budget-medium-final-v2.json), [dev](docs/budget-medium-dev-v2.json).
+The published model maximum is only a conservative accounting reserve; it is
+not sent as a custom API generation cap. Actual usage settles the estimate.
 
-Local checks validate dataset structure, unique messages, context, freeze, document
-links and module boundaries. Useful tests cover adapter/refusal/malformed parsing,
-cache/reasoning pricing, exact metrics, paired disagreements, budgets/retries,
-secrets and offline end-to-end reproduction. Live tests use explicit synthetic
-fixtures with mocked transport, never API calls. The local keyword control is a
-smoke test, not a substitute for measured Jev/GPT results.
-`make check` passed with **19 tests** and data/freeze/docs/architecture checks.
-Dev and final offline runs completed; a clean source commit is recorded in the
-[published offline evidence](results/published/offline-control-v1/results-summary.md).
-The fixed keyword control got **54/100**, with **18 unsafe automated decisions**
-and $0 API spend. These are only that crude algorithm's results, not Jev/GPT scores.
+Rates verified 2026-10-01: [Jev](https://docs.typesafe.ai/models),
+[GPT-6 Luna](https://developers.openai.com/api/docs/models/gpt-6-luna).
+Reasoning is already included in output cost. Unknown usage/cache-write allocation
+remains visible rather than an invented exact invoice.
 
-Commands from repository root:
+## Reproduce and next step
 
 ```sh
 make check
-python3 -m bench dry-run --split dev --out results/local/dev-dry
-python3 -m bench dry-run --split final --out results/local/final-control-1
-python3 -m bench estimate --split final --runs 1
-python3 -m bench report --dir results/local/final-control-1
+make dry-run
+make estimate
 ```
 
-## Budget proposal, not spending permission
+After local key entry and rules/labels review, run dev to verify the API contract,
+then final. No further budget question is needed within the approved $10 scope.
+Record all decisions, usage, timing, failures and disagreements. Build the
+saved-evidence replay after actual results and get the owner's interpretation.
 
-One final paired pass = 200 planned requests. Based on actual prepared request
-sizes and UTF-8/3 input-token heuristic: **about $0.0335** combined (Jev $0.0093,
-GPT $0.0242); tokenizer usage is not yet measured. No cache savings assumed.
-Conservative reservations: **$0.2688 without retries**, **$0.5376 if every request
-is attempted twice**. Proposal: **up to $1 for one final pass including errors/retries**.
-Dev access/contract check is a separate cost and authorization decision: a 20-task
-paired dev run estimates about $0.0067, with a conservative all-retries reserve
-around $0.1076. A dev cap of $0.15 and final cap of $0.85 would share a $1 overall
-budget if the owner approves that allocation; neither run is currently authorized.
-Exact formulas, rates, byte sizes and limits: [budget-proposal.json](docs/budget-proposal.json).
-
-Official rates checked 2026-10-01: [Jev models](https://docs.typesafe.ai/models) and
-[GPT-6 Luna](https://developers.openai.com/api/docs/models/gpt-6-luna). Recheck before
-the actual run. GPT cache-write allocation in usage remains uncertain; measured
-reports will show base/upper calculations rather than an invented exact invoice.
-
-## Next evidence needed
-
-Owner confirmation of rules and labels, explicit budget, project-local keys and
-actual API access/contract check. Then final eval and real reports/figures, followed
-by a two-column saved-evidence replay. UI is deliberately scheduled after real
-results under the attached brief. Personal conclusions require owner review.
-
-Synthetic balanced sample of 100 is small and not a production distribution.
-Repeated runs do not increase independent sample size. Wilson intervals/p95 counts
-and all errors/disagreements will accompany the actual report. Public final tasks
-are not a protected holdout for future model development.
-
-This report is for transfer to the editorial session. No editorial files, posts,
-Telegram credentials or other chats were modified. [Harness mapping](docs/harness-engineering.md).
+100 synthetic Russian tasks, AI labels, public holdout, small p95 sample and
+unmeasured network/provider region limit conclusions. Repeats do not increase
+independent N. No editorial files, posts, Telegram credentials, other chats or
+CI/CD were modified. No personal author conclusions were invented.

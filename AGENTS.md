@@ -7,6 +7,7 @@ Start with [README.md](README.md), then follow the relevant source of truth:
 - [Architecture](ARCHITECTURE.md): boundaries, allowed dependency direction
 - [Dataset card](docs/dataset-card.md): dev/final split and AI labels
 - [Evaluation protocol](docs/evaluation-protocol.md): pairing, metrics, cost
+- [Decisions and limitations](docs/decisions-and-limitations.ru.md): owner choices vs AI assumptions
 - [Owner review](docs/owner-review.md): decisions requiring human judgment
 - [API references](docs/references/api-verification.md): dated IDs and rates
 - [Active plan](docs/exec-plans/active/experiment.md) and [quality](docs/quality.md)
@@ -22,6 +23,8 @@ results, replace a model, or compare Jev confidence with invented GPT confidence
 Record changes to rules/config/data and repeat the owner review before paid evaluation.
 
 Keys belong only in gitignored `.env`; never print them or copy other project keys.
-Paid requests need explicit owner budget approval and reviewed labels/rules first.
+Owner approved $10 total and GPT-6 Luna medium. Use normal API generation defaults,
+no extra split quotas/ledger; keep recorded costs. Rules/labels review remains pending.
+Paid requests need reviewed labels/rules first.
 Keep every attempt, including errors, and never rewrite a run directory.
 Publish only reviewed safe artifacts. The GitHub repository is public by owner request.

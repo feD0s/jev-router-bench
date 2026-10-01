@@ -16,7 +16,6 @@ def request_body(provider, case, cfg, prompt, shop):
             "route": {"type": "choice", "instructions": prompt, "criteria": cfg["criteria"]}}}
     return {"model": p["model"], "store": False, "service_tier": "default",
             "reasoning": {"effort": p["reasoning_effort"]},
-            "max_output_tokens": p["max_output_tokens"],
             "input": [{"role": "system", "content": prompt + "\n" + json.dumps(cfg["criteria"], ensure_ascii=False)},
                       {"role": "user", "content": json.dumps(state, ensure_ascii=False)}],
             "text": {"format": {"type": "json_schema", "name": "route", "strict": True,
@@ -105,8 +104,10 @@ def usage_and_cost(provider, raw, settings):
         return None
 
 
-def reservation_usd(provider, cfg):
+def reservation_usd(provider, cfg, body=None):
     p = cfg["providers"][provider]
     rate = max(p[f"{key}_per_million_usd"] for key in ("input", "cached_input", "cache_write"))
-    return (cfg["measurement"]["input_token_ceiling"] * rate
-            + p.get("max_output_tokens", 0) * p["output_per_million_usd"]) / 1e6
+    # An accounting estimate, not an input/output limit sent to the API.
+    input_reserve = len(json.dumps(body, ensure_ascii=False).encode()) + 4096 if body else 16000
+    return (input_reserve * rate
+            + p.get("model_max_output_tokens", 0) * p["output_per_million_usd"]) / 1e6

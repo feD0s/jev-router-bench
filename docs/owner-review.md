@@ -36,10 +36,10 @@ measured model errors. Semantic similarity across splits also needs a human look
 
 After actual confirmation, update `data/owner-review.json`: approved, reviewer,
 reviewed_on, decisions/label corrections, exact sha256 from freeze. Agent must not
-mark approval on its own. Budget is a separate explicit human decision.
-Proposal: one final paired pass, **up to $1 including retries/errors**, at most
-400 HTTP attempts. Dev is estimated separately; agree whether it shares that cap.
-No money has been spent. [Concrete planning estimate](budget-proposal.json).
+mark approval on its own. Budget/model update 2026-10-01: owner explicitly approved **$10 total**, GPT-6 Luna
+**medium**, for dev + one final pass. No split quotas or custom generation caps. This does not mark labels/rules reviewed. No money has been
+spent. [Current medium estimate](budget-medium-final-v2.json);
+[all decisions and limitations](decisions-and-limitations.ru.md).
 
 ## Original cases for review
 

@@ -2,8 +2,8 @@
 
 Fix rules, labels, prompt/config/model IDs before paid testing. Owner review must
 be explicit and hash-matched. Use dev for integration/debugging; never choose
-settings from the final 100. Primary effort is none; low would need a separately
-versioned config and dev evaluation, reported separately. No confidence gate in v1.
+settings from the final 100. Owner-selected primary effort is medium (2026-10-01), active config v2. Other efforts
+require separate versions/evidence; none v1 is retained as history. No confidence gate.
 
 ## Requests and scheduling
 
@@ -62,14 +62,16 @@ Cache-read and separately reported write tokens are priced at their published ra
 If GPT does not report write allocation, report base estimate and conservative
 upper with write premium on all uncached input. Do not call this an exact invoice.
 
-Accounting includes all retries/errors. Unknown usage reserves full per-request
-bound (16000 input tokens, capped GPT output), rather than claiming zero cost.
-Before sending, reject bodies larger than byte-based token bound plus 4096
-overhead; reserve the max applicable input/cache-write rate. Published tokenization
-and pricing changes can break this estimate; stop on usage exceeding it. Provider
-account spending limits are complementary; client code cannot guarantee an invoice.
-Request count and total series time also bound execution. Every separate CLI run
-has its own budget; owner approval must specify whether dev/repeats share a total.
+Accounting includes all retries/errors. Unknown usage retains a conservative estimate,
+rather than zero cost. No custom max_output_tokens, input cap, split quotas, run locks
+or separate ledger. Default API generation settings, explicit effort medium, ordinary
+60-second HTTP timeout. Owner-approved budget is $10 total; existing attempt logs
+under results/live feed a simple remaining-budget calculation. This is a sequential
+experiment, not transactional accounting for concurrent clients.
+
+Per-request accounting reservations use body size plus estimated overhead and the
+published model output maximum, without sending those bounds as generation limits.
+Usage settles the estimate; incomplete/refused/error responses remain visible.
 
 ## Reporting and reproduction
 

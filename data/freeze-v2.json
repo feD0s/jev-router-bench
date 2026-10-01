@@ -1,8 +1,10 @@
 {
-  "approved": false,
-  "reviewer": null,
-  "reviewed_on": null,
-  "decisions": [],
+  "version": "router-medium-v2",
+  "dataset_version": "synthetic-ru-v1",
+  "created_on": "2026-10-01",
+  "author": "AI coding agent",
+  "human_review": "pending",
+  "changes": "Owner chose medium and $10 total; no custom generation cap or split quotas. Rules/data unchanged from v1.",
   "sha256": {
     "configs/experiment-v2.json": "8d24aa5e93f26c6925c14b7d08909c763acbdda126119fdf97be46ddba9ab9bd",
     "prompts/router-v1.txt": "7d9cdfac7b07aa3bf2e57b5c8e71c477952264eaffa675b39111bc3b969a947b",
@@ -11,6 +13,5 @@
     "data/final-v1.jsonl": "3125fc601a20b43e3a849e4d1079945d4a5b00a2a7cf231b19baae092603b41a",
     "docs/business-rules.md": "e4d914167fb5a0b300eda4486bed85f023aedd89ded782986810b418fd66d82f",
     "configs/budget-approval-v1.json": "2b4e4e480d432564209ad837453f4947c8f7f2d52c40ef6f5d290eff2c59e68a"
-  },
-  "pending_reason": "Owner confirmed budget and model; asked for decisions explanation, not label approval."
+  }
 }

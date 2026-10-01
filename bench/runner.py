@@ -10,7 +10,7 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 from .adapters import request_body, parse_route, usage_and_cost, reservation_usd, SchemaError
-from .core import ROOT, check_freeze, hashes, inputs, load_cases, read_json, write_json
+from .core import ROOT, APPROVAL, check_freeze, hashes, inputs, load_cases, read_json, write_json
 from .transport import post_json, redact
 
 
@@ -50,12 +50,12 @@ def pair_schedule(cases, cfg, repeats):
 
 
 class Limits:
-    def __init__(self, spend, max_requests, seconds):
+    def __init__(self, spend, max_requests, seconds=None):
         if not math.isfinite(spend) or spend <= 0:
             raise ValueError("Spend limit must be finite and positive")
         self.limit, self.max_requests = spend, max_requests
         self.accounted, self.requests = 0.0, 0
-        self.deadline = time.monotonic() + seconds
+        self.deadline = time.monotonic() + seconds if seconds is not None else float("inf")
 
     def reserve(self, amount):
         if time.monotonic() >= self.deadline:
@@ -130,7 +130,16 @@ def dry_run(split, out):
     return out
 
 
-def live_run(split, out, repeats, approved_spend, max_requests=None, transport=post_json):
+def previous_accounted_spend():
+    """Read saved attempt charges; no locks or separate bookkeeping database."""
+    total = 0.0
+    for path in (ROOT / "results/live").glob("**/attempts.jsonl"):
+        for line in path.read_text().splitlines():
+            total += json.loads(line)["accounted_usd"]
+    return total
+
+
+def live_run(split, out, repeats, approved_spend=10, max_requests=None, transport=post_json):
     frozen = check_freeze()
     review = read_json(ROOT / "data/owner-review.json")
     if review.get("approved") is not True or review.get("sha256") != frozen["sha256"] or not review.get("reviewer"):
@@ -142,23 +151,23 @@ def live_run(split, out, repeats, approved_spend, max_requests=None, transport=p
     if state["dirty"] or not state["commit"]:
         raise ValueError("Commit the reviewed inputs/code before live evaluation")
     keys = load_env(ROOT / ".env")
+    approval = read_json(ROOT / APPROVAL)
+    spent_before = previous_accounted_spend()
+    shared_remaining = approval["total_limit_usd"] - spent_before
+    if approval.get("approved") is not True or shared_remaining <= 0:
+        raise ValueError("Shared approved budget exhausted")
     m = cfg["measurement"]
     cases = load_cases(split)
     planned_attempt_cap = len(cases) * len(cfg["providers"]) * repeats * m["max_attempts"]
-    request_limit = min(planned_attempt_cap, m["max_requests"])
+    request_limit = planned_attempt_cap
     if max_requests is not None:
         request_limit = min(max_requests, request_limit)
     if type(request_limit) is not int or request_limit <= 0:
         raise ValueError("Invalid request limit")
-    limits = Limits(approved_spend, request_limit, m["series_timeout_s"])
-    # Validate all envelopes before a single paid request.
-    for case in cases:
-        for provider in ("jev", "gpt"):
-            body = request_body(provider, case, cfg, prompt, shop)
-            if len(json.dumps(body, ensure_ascii=False).encode()) + 4096 > m["input_token_ceiling"]:
-                raise ValueError("Request exceeds conservative input reservation")
+    limits = Limits(min(approved_spend, shared_remaining), request_limit)
     out, manifest = prepare_run(out, split, "paired-live", repeats, cfg, prompt, shop)
-    manifest["approval"] = {"spend_limit_usd": approved_spend, "max_requests": request_limit, "owner_review": review}
+    manifest["approval"] = {"spend_limit_usd": limits.limit, "previous_accounted_usd": spent_before,
+                            "shared_budget": approval, "owner_review": review}
     write_json(out / "manifest.json", manifest)
     stop = None
     with (out / "attempts.jsonl").open("x") as log:
@@ -169,7 +178,7 @@ def live_run(split, out, repeats, approved_spend, max_requests=None, transport=p
                     p = cfg["providers"][provider]
                     decision_start = time.perf_counter()
                     for attempt in range(1, m["max_attempts"]+1):
-                        reserved = reservation_usd(provider, cfg)
+                        reserved = reservation_usd(provider, cfg, body)
                         limits.reserve(reserved)
                         key = keys["TYPESAFE_API_KEY" if provider == "jev" else "OPENAI_API_KEY"]
                         start = time.perf_counter()
@@ -230,5 +239,6 @@ def live_run(split, out, repeats, approved_spend, max_requests=None, transport=p
             manifest.update(status="stopped" if stop else "complete", stop_reason=stop,
                 finished_at_utc=datetime.now(timezone.utc).isoformat(), paid_requests=limits.requests,
                 accounted_upper_usd=limits.accounted)
+            manifest["shared_accounted_upper_usd"] = spent_before + limits.accounted
             write_json(out / "manifest.json", redact(manifest, tuple(keys.values())))
     return out

@@ -20,8 +20,8 @@ def main():
         if name in ("estimate", "live"):
             p.add_argument("--runs", type=int, default=1)
         if name == "live":
-            p.add_argument("--approve-spend-usd", type=float, required=True,
-                           help="Only after explicit owner budget approval; includes unknown-usage errors")
+            p.add_argument("--approve-spend-usd", type=float, default=10,
+                           help="Owner-approved shared $10 budget; optionally use a lower run cap")
             p.add_argument("--max-requests", type=int, default=None)
         if name == "estimate":
             p.add_argument("--save", type=Path)
